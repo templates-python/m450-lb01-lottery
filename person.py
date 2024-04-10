@@ -8,7 +8,7 @@ class Person:
     """
     givenname: str
     password: str
-    balance: int
+    balance: float
 
     @property
     def givenname(self):

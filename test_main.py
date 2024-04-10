@@ -11,11 +11,16 @@ def dummy_login():
 def dummy_transfer(person):
     pass
 
+# monkeypatch to replace the function 'select_menu' in main
+def dummy_select_menu():
+    print('Lotto\n---------\nA) Konto Ein- und Auszahlungen tätigen\nB) Lottotipps abgeben\nZ) Beenden')
+    return input('')
+
 def test_main_exit(capsys, monkeypatch):
-    inputs = iter(['geheim', 'Z'])
     inputs = iter(['Z'])
     monkeypatch.setattr('builtins.input', lambda _: next(inputs))
     monkeypatch.setattr(main, 'login', dummy_login)
+    monkeypatch.setattr(main, 'select_menu', dummy_select_menu)
     main.main()
     output = capsys.readouterr().out
     assert output == 'Lotto\n---------\nA) Konto Ein- und Auszahlungen tätigen\nB) Lottotipps abgeben\nZ) Beenden\n'
@@ -26,6 +31,7 @@ def test_main_money(capsys, monkeypatch):
     monkeypatch.setattr('builtins.input', lambda _: next(inputs))
     monkeypatch.setattr(main, 'login', dummy_login)
     monkeypatch.setattr(main, 'transfer_money', dummy_transfer)
+    monkeypatch.setattr(main, 'select_menu', dummy_select_menu)
     main.main()
     output = capsys.readouterr().out
     assert output == 'Lotto\n---------\nA) Konto Ein- und Auszahlungen tätigen\nB) Lottotipps abgeben\nZ) Beenden\n' \
@@ -37,6 +43,7 @@ def test_main_ticket(capsys, monkeypatch):
     monkeypatch.setattr('builtins.input', lambda _: next(inputs))
     monkeypatch.setattr(main, 'login', dummy_login)
     monkeypatch.setattr(main, 'create_ticket', dummy_ticket)
+    monkeypatch.setattr(main, 'select_menu', dummy_select_menu)
     main.main()
     output = capsys.readouterr().out
     assert output == 'Lotto\n---------\nA) Konto Ein- und Auszahlungen tätigen\nB) Lottotipps abgeben\nZ) Beenden\n' \

@@ -5,3 +5,5 @@ command_line = -m pytest
 [report]
 show_missing = True
 omit = test_*.py
+exclude_also =
+    __name__
